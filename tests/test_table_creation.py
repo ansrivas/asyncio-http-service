@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """Tables creations utitlities."""
 
-from app.service import create_tables, delete_tables, reset_tables
 import pytest
+from app.service import create_tables
 
 
 @pytest.mark.asyncio
