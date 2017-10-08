@@ -1,0 +1,8 @@
+postgres:
+  user: "testuser"
+  password: "testpassword123"
+  database: "testdb"
+  host: localhost
+  port: 5432
+  poolsize_min: 1
+  poolsize_max: 10
