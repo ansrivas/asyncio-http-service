@@ -38,27 +38,3 @@ todos_index_creation = '''CREATE UNIQUE INDEX ix_users_id on todos(users_id)'''
 todos_deletion = '''DROP TABLE todos'''
 
 todos_index_deletion = '''DROP INDEX public.ix_users_id'''
-
-
-async def create_customers(conn, debug=False):
-    """."""
-    if debug:
-        await conn.execute('DROP TABLE IF EXISTS customers CASCADE')
-
-    await conn.execute('''CREATE TABLE IF NOT EXISTS customers (
-    id serial PRIMARY KEY NOT NULL,
-    customer_id varchar(255) NOT NULL,
-    created_timestamp timestamp with time zone NOT NULL,
-    modified_timestamp timestamp with time zone NOT NULL)''')
-
-    await conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS ix_customer_id on customers(customer_id)')
-
-
-async def create_dates(conn, debug=False):
-    """."""
-    if debug:
-        await conn.execute('DROP TABLE IF EXISTS dates')
-
-    await conn.execute()
-
-    await conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS ix_customer_id_dates on dates(customer_id)')

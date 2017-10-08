@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading text-center"><span class="glyphicon glyphicon-list-alt"></span> Select one of the following options</div>
+    <div class="panel-body text-center">
+      <div class="list-group">
+        <li class="list-group-item"><a href="{{ new_todo_url }}">New Todo</a></li>
+        <li class="list-group-item"><a href="{{ list_todo_url }}">List Todos</a></li>
+        <li class="list-group-item"><a href="{{ completed_todo_url }}">Completed Todos</a></li>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

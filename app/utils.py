@@ -3,6 +3,7 @@
 """Bunch of utility functions."""
 
 import os
+import sys
 from app.validator import config_schema
 from trafaret_config import ConfigError, read_and_validate
 
@@ -34,4 +35,8 @@ def read_config_from_env(key):
         config json
     """
     filepath = os.getenv(key)
+    if not filepath:
+        sys.stderr.write("Passed key does not exist: {0}".format(key))
+        return None
+
     return read_config(filepath)
