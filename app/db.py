@@ -14,13 +14,23 @@ async def init_db(config):
     Returns:
         pool object
     """
+    postgres = config['postgres']
     pool = await asyncpg.create_pool(
-        database=config['database'],
-        user=config['user'],
-        password=config['password'],
-        host=config['host'],
-        port=config['port'],
-        min_size=config['poolsize_min'],
-        max_size=config['poolsize_max'],
+        database=postgres['database'],
+        user=postgres['user'],
+        password=postgres['password'],
+        host=postgres['host'],
+        port=postgres['port'],
+        min_size=postgres['poolsize_min'],
+        max_size=postgres['poolsize_max'],
     )
     return pool
+
+
+async def close_pg(app):
+    """Gracefully close the pool of connections to postgres.
+
+    Args:
+        app (object)    : Asyncio web app object
+    """
+    app['db_pool'].close()
