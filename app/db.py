@@ -33,4 +33,4 @@ async def close_pg(app):
     Args:
         app (object)    : Asyncio web app object
     """
-    app['db_pool'].close()
+    await app['db_pool'].close()
