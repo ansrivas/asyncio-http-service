@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """Bunch of db services to be used across the application."""
 
+from app.utils import DataStatus
 from app.models import users, todos
 
 
@@ -41,6 +42,6 @@ async def get_all_users(conn):
 
     if not len(results):
         # TODO: use a named tuple here or just tuple as did in previous application.
-        print("No registered users found")
-        return None
-    return results
+        msg = "No registered users found"
+        return DataStatus(None, msg, False)
+    return DataStatus(results, "", True)

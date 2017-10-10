@@ -11,6 +11,8 @@ async def test_get_all_users(pool_with_tables):
     """."""
     async with pool_with_tables.acquire() as conn:
         async with conn.transaction():
-            users = await get_all_users(conn)
+            status = await get_all_users(conn)
 
-    assert users is None
+    assert status.data is None
+    assert not status.is_success
+    assert status.message == "No registered users found"
