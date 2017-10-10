@@ -13,6 +13,6 @@ async def test_table_creations(pool):
     async with pool.acquire() as conn:
         await create_tables(conn)
         async with conn.transaction():
-            users = await conn.execute("""SELECT 'public.users'::regclass""")
-            todos = await conn.execute("""SELECT 'public.todos'::regclass""")
+            users = await conn.fetch("""SELECT 'public.users'::regclass""")
+            todos = await conn.fetch("""SELECT 'public.todos'::regclass""")
     assert users, todos

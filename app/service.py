@@ -31,3 +31,16 @@ async def reset_tables(conn):
         # Run the query passing the request argument.
         await delete_tables(conn)
         await create_tables(conn)
+
+
+async def get_all_users(conn):
+    """Return all the registered users for this app."""
+    sql = "select email_address from public.users;"
+    async with conn.transaction():
+        results = await conn.fetch(sql)
+
+    if not len(results):
+        # TODO: use a named tuple here or just tuple as did in previous application.
+        print("No registered users found")
+        return None
+    return results

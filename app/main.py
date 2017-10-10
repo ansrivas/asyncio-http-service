@@ -10,8 +10,8 @@ import logging
 import aiohttp_jinja2
 from aiohttp import web
 from app.routes.index import Index
-from app.routes.todos import todos_app
 from app.db import init_db, close_db
+from app.routes.todos import todos_app
 from app.utils import read_config_from_env
 
 logger = logging.getLogger(__name__)
@@ -25,7 +25,14 @@ def setup_routes(app):
     index_resource = app.router.add_resource(r'/', name='index')
     index_resource.add_route('GET', Index)
 
+    todos_app.router.add_static('/static/',
+                                path=str(PROJECT_ROOT / 'static'),
+                                name='static')
     app.add_subapp(r'/api/v1/todo', todos_app)
+    app['todos_app'] = todos_app
+
+    aiohttp_jinja2.setup(todos_app,
+                         loader=jinja2.PackageLoader('app', 'templates'))
 
     app.router.add_static('/static/',
                           path=str(PROJECT_ROOT / 'static'),
@@ -47,8 +54,8 @@ def create_app():
     app.on_startup.append(init_db)
     app.on_cleanup.append(close_db)
 
-    aiohttp_jinja2.setup(
-        app, loader=jinja2.PackageLoader('app', 'templates'))
+    aiohttp_jinja2.setup(app,
+                         loader=jinja2.PackageLoader('app', 'templates'))
 
     setup_routes(app)
 

@@ -4,7 +4,6 @@
 
 import aiohttp_jinja2
 from aiohttp import web
-from app.routes.todos import todos_app
 
 
 class Index(web.View):
@@ -13,6 +12,7 @@ class Index(web.View):
     @aiohttp_jinja2.template('index.html')
     async def get(self):
         """Return a simple hello."""
+        todos_app = self.request.app['todos_app']
         return {
             'new_todo_url': todos_app.router['new_todo'].url_for(),
             'list_todo_url': todos_app.router['list_todo'].url_for(),
