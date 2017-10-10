@@ -10,9 +10,8 @@ from app.models import users, todos
 
 
 async def create_tables(conn):
-    """Create all the tables required for this app."""
+    """Create all the tables and indices required for this app."""
     async with conn.transaction():
-        # Run the query passing the request argument.
         await conn.execute(users.users_creation)
         await conn.execute(users.users_index_creation)
         await conn.execute(todos.todos_creation)
@@ -20,9 +19,8 @@ async def create_tables(conn):
 
 
 async def delete_tables(conn):
-    """Create all the tables required for this app."""
+    """Delete all the tables/indices used in this app."""
     async with conn.transaction():
-        # Run the query passing the request argument.
         await conn.execute(users.users_index_deletion)
         await conn.execute(todos.todos_index_deletion)
         await conn.execute(users.users_deletion)
@@ -30,9 +28,8 @@ async def delete_tables(conn):
 
 
 async def reset_tables(conn):
-    """Create all the tables required for this app."""
+    """Delete and create all the tables used in this app."""
     async with conn.transaction():
-        # Run the query passing the request argument.
         await delete_tables(conn)
         await create_tables(conn)
 
@@ -44,8 +41,6 @@ async def get_all_users(conn: Connection)-> DataStatus(List[Record], str, bool):
         results = await conn.fetch(sql)
 
     if len(results) == 0:
-        # TODO: use a named tuple here or just tuple as did in previous application.
-        msg = "No registered users found"
-        return DataStatus([], msg, False)
+        return DataStatus([],  "No registered users found", False)
 
     return DataStatus(results, "", True)

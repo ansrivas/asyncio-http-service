@@ -21,10 +21,10 @@ async def test_get_all_users(pool_with_tables):
 @pytest.mark.asyncio
 async def test_get_one_user(pool_with_tables):
     """."""
-
     async with pool_with_tables.acquire() as conn:
         async with conn.transaction():
-            await conn.execute('''INSERT INTO users(id, created_timestamp, modified_timestamp, email_address) VALUES (1, '2016-11-12', '2016-11-13', 'myemail@gmail.com')''')
+            await conn.execute('''INSERT INTO users(id, created_timestamp, modified_timestamp, email_address) \
+            VALUES (1, '2016-11-12', '2016-11-13', 'myemail@gmail.com')''')
 
     async with pool_with_tables.acquire() as conn:
         async with conn.transaction():
