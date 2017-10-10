@@ -13,7 +13,7 @@ async def test_get_all_users(pool_with_tables):
         async with conn.transaction():
             status = await get_all_users(conn)
 
-    assert status.data is None
+    assert not status.data
     assert not status.is_success
     assert status.message == "No registered users found"
 
