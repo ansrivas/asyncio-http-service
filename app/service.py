@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 """Bunch of db services to be used across the application."""
 
+from typing import List
+from asyncpg import Connection
+from asyncpg import Record
 from app.utils import DataStatus
 from app.models import users, todos
 
@@ -34,7 +37,7 @@ async def reset_tables(conn):
         await create_tables(conn)
 
 
-async def get_all_users(conn):
+async def get_all_users(conn: Connection)-> List[Record]:
     """Return all the registered users for this app."""
     sql = "select email_address from public.users;"
     async with conn.transaction():
