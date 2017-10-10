@@ -3,13 +3,13 @@
 """Bunch of db services to be used across the application."""
 
 from typing import List
-from asyncpg import Connection
 from asyncpg import Record
+from asyncpg import Connection
 from app.utils import DataStatus
 from app.models import users, todos
 
 
-async def create_tables(conn):
+async def create_tables(conn: Connection)->None:
     """Create all the tables and indices required for this app."""
     async with conn.transaction():
         await conn.execute(users.users_creation)
@@ -18,7 +18,7 @@ async def create_tables(conn):
         await conn.execute(todos.todos_index_creation)
 
 
-async def delete_tables(conn):
+async def delete_tables(conn: Connection)->None:
     """Delete all the tables/indices used in this app."""
     async with conn.transaction():
         await conn.execute(users.users_index_deletion)
@@ -27,7 +27,7 @@ async def delete_tables(conn):
         await conn.execute(todos.todos_deletion)
 
 
-async def reset_tables(conn):
+async def reset_tables(conn: Connection)->None:
     """Delete and create all the tables used in this app."""
     async with conn.transaction():
         await delete_tables(conn)
