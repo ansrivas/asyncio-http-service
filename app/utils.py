@@ -4,7 +4,9 @@
 
 import os
 import sys
+import pytz
 import collections
+from datetime import datetime
 from app.validator import config_schema
 from trafaret_config import ConfigError, read_and_validate
 
@@ -52,3 +54,12 @@ def read_config_from_env(key):
         return None
 
     return read_config(filepath)
+
+
+def tzware_datetime():
+    """Return a timezone aware datetime.
+
+    Return:
+        tz aware datetime.now()
+    """
+    return datetime.now(pytz.utc)

@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 """Bunch of db services to be used across the application."""
 
+import asyncpg
 from typing import List
-from asyncpg import Record
-from asyncpg import Connection
-from app.utils import DataStatus
 from app.models import users, todos
+from asyncpg import Record, Connection
+from app.utils import DataStatus, tzware_datetime
 
 
 async def create_tables(conn: Connection)->None:
@@ -44,3 +44,19 @@ async def get_all_users(conn: Connection)-> DataStatus(List[Record], str, bool):
         return DataStatus([],  "No registered users found", False)
 
     return DataStatus(results, "", True)
+
+
+async def insert_user(conn: Connection, email_address)-> DataStatus(List[Record], str, bool):
+    """Insert a new user given email_address."""
+    sql = "INSERT INTO users(created_timestamp, modified_timestamp, email_address) VALUES ($1, $2, $3);"
+    now = tzware_datetime()
+    try:
+        async with conn.transaction():
+            result = await conn.execute(sql, now, now, email_address)
+            if result == "INSERT 0 1":
+                return DataStatus([],  "Successfully registered the customers", True)
+
+            return DataStatus([], "Something went wrong", False)
+    except Exception as ex:
+        print(ex.message)
+        return DataStatus([], ex.message, False)
