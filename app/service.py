@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """Bunch of db services to be used across the application."""
 
-import asyncpg
 from typing import List
 from app.models import users, todos
 from asyncpg import Record, Connection
@@ -58,5 +57,4 @@ async def insert_user(conn: Connection, email_address)-> DataStatus(List[Record]
 
             return DataStatus([], "Something went wrong", False)
     except Exception as ex:
-        print(ex.message)
         return DataStatus([], ex.message, False)

@@ -11,6 +11,6 @@ setup(
                       'trafaret==0.12.0', 'trafaret-config==1.0.1', 'uvloop==0.8.1',
                       ],
     setup_requires=['pytest-runner', 'pytest'],
-    tests_require=['pytest', 'pytest-asyncio'],
+    tests_require=['pytest', 'pytest-asyncio', 'pytest-cov', ],
     packages=find_packages(),
 )
