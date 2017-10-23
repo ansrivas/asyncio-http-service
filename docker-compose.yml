@@ -1,0 +1,20 @@
+version: '3'
+services:
+  aiohttp-postgres-s:
+    image: ansrivas/aiohttp-postgres:9.6
+    container_name: aiohttp-postgres-c
+    build: ./config
+    environment:
+      SERVICE_NAME: postgres-aiohttp
+    env_file:
+      - ./config/env.list
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - asyncpolls_pgdata:/var/lib/postgresql/data
+
+
+volumes:
+  asyncpolls_pgdata:
+#     external: true

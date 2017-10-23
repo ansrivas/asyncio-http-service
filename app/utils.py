@@ -4,8 +4,22 @@
 
 import os
 import sys
+import pytz
+import collections
+from datetime import datetime
 from app.validator import config_schema
 from trafaret_config import ConfigError, read_and_validate
+
+
+# Status returned to the templates, Data= None in case its not a database query
+# so ideally:
+# if data.is_success: ( case of database request)
+#   return data.data
+# if not data.is_success:
+#   print(data.message)
+
+
+DataStatus = collections.namedtuple('DataStatus', 'data message is_success')
 
 
 def read_config(filepath):
@@ -40,3 +54,12 @@ def read_config_from_env(key):
         return None
 
     return read_config(filepath)
+
+
+def tzware_datetime():
+    """Return a timezone aware datetime.
+
+    Return:
+        tz aware datetime.now()
+    """
+    return datetime.now(pytz.utc)
