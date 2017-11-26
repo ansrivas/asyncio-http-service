@@ -18,13 +18,14 @@ test:
 .PHONY : prepare_dev
 prepare_dev:   ## Install the application in current environment
 prepare_dev:
-	python setup.py develop
-	docker-compose down -v ; \
-	docker rmi ansrivas/aiohttp-postgres:9.6 ;\
+	python setup.py develop && \
+	pip install docker-compose && \
+	docker-compose down -v &&\
+	docker rmi ansrivas/aiohttp-postgres:9.6 && \
 	docker-compose up -d
 
 
 .PHONY : dev_run
-dev_run:	     ## Run application in a dev mode, where gunicorn workers will reload the application on every change.
+dev_run:       ## Run application in a dev mode, where gunicorn workers will reload the application on every change.
 dev_run:	prepare_dev
 	gunicorn 'app.main:app' --env config_file=`pwd`/config/config.yaml --workers=8 --bind localhost:8000 --worker-class aiohttp.GunicornWebWorker --reload
